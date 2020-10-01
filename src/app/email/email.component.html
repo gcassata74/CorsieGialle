@@ -1,0 +1,35 @@
+<ion-header>
+    <ion-title>
+      Send Invoice
+    </ion-title>
+</ion-header>
+
+<ion-content padding>
+  <ion-item>
+    <ion-label stacked>To</ion-label>
+    <ion-input [(ngModel)]="sendObj.to"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label stacked>CC</ion-label>
+    <ion-input [(ngModel)]="sendObj.cc"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label stacked>BCC</ion-label>
+    <ion-input [(ngModel)]="sendObj.bcc"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label stacked>Add pdf</ion-label>
+    <ion-input [(ngModel)]="sendObj.attachments" type="file"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label stacked>Subject</ion-label>
+    <ion-input [(ngModel)]="sendObj.subject"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label stacked>Text message</ion-label>
+    <ion-input [(ngModel)]="sendObj.body"></ion-input>
+  </ion-item>
+
+  <button ion-button full (click)="sendEmail()">Send Email</button>
+
+</ion-content>

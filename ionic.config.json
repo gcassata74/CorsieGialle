@@ -1,0 +1,7 @@
+{
+  "name": "camclone",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

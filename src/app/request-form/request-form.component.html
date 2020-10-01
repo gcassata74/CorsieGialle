@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>  <!-- see how there are no complicated things here -->
+      </ion-buttons>
+      <ion-title>Nuovo transito</ion-title>
+    </ion-toolbar>
+  </ion-header>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+      <form [formGroup]="requestForm" (ngSubmit)="onSubmit()">
+
+        <ion-auto-complete [dataProvider]="cityService" formControlName="city"  ></ion-auto-complete>
+
+        <ion-item>
+          <ion-label floating>Data del transito: *</ion-label>
+          <ion-datetime formControlName="transit_date" displayFormat="DD/MM/YYYY" ></ion-datetime>
+        </ion-item>
+
+        <ion-item>
+          <ion-label floating>Ora inizio transito: *</ion-label>
+          <ion-datetime formControlName="start_transit_hour" displayFormat="HH:mm" ></ion-datetime>
+        </ion-item>
+
+
+        <ion-item>
+          <ion-label floating>Ora fine transito: *</ion-label>
+          <ion-datetime formControlName="end_transit_hour" displayFormat="HH:mm" ></ion-datetime>
+        </ion-item>
+
+
+          <ion-item>
+              <ion-label floating>Targa: *</ion-label>
+              <ion-input formControlName="targa" type="text"></ion-input>
+          </ion-item>
+
+          <ion-button type="submit" color="primary" expand="block" [disabled]="!requestForm.valid" >Invia</ion-button>
+
+      </form>
+  </ion-list>
+</ion-content>
