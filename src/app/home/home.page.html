@@ -3,9 +3,34 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>  <!-- see how there are no complicated things here -->
     </ion-buttons>
-    <ion-title>Dashboard</ion-title>
+    <ion-title>Corsie Gialle</ion-title>
   </ion-toolbar>
 </ion-header>
+
+<ion-content>
+  <ion-card class="welcome-card" color="secondary">
+    <ion-card-header>
+    
+      <ion-card-title>Benvenuto in Corsie Gialle</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>Puoi inserire un nuovo transito o inserire i tuoi attestati di transito</p>
+    </ion-card-content>
+  </ion-card>
+  <ion-list lines="none">
+    <ion-list-header>
+      <ion-label>Opzioni</ion-label>
+    </ion-list-header>
+    <ion-item routerLink="/request-form" >
+      <ion-icon slot="start" color="medium" name="car"></ion-icon>
+      <ion-label>Nuovo Transito</ion-label>
+    </ion-item>
+    <ion-item routerLink="/file-manager" >
+      <ion-icon slot="start" color="medium" name="document"></ion-icon>
+      <ion-label>Gestisci i tuoi attestati di transito</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
   
 
 

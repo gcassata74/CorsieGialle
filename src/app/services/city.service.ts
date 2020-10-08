@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { AutoCompleteService } from 'ionic4-auto-complete';
+//import { AutoCompleteService } from 'ionic4-auto-complete';
 import { comuni } from '../data/comuni'; 
 
 @Injectable()
-export class CityService implements AutoCompleteService{
+export class CityService {
 
   constructor() { }
   labelAttribute: string='nome';
@@ -16,9 +16,9 @@ export class CityService implements AutoCompleteService{
 
     return comuni.filter(
       (item) => {
-         return item.nome.toLowerCase().startsWith(
+         return item.name.toLowerCase().startsWith(
             keyword.toLowerCase()
-         );
+         ) && item.emails.length>0;
       }
    );
 

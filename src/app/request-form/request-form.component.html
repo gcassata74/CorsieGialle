@@ -13,16 +13,22 @@
   <ion-list>
       <form [formGroup]="requestForm" (ngSubmit)="onSubmit()">
 
-        <ion-auto-complete [dataProvider]="cityService" formControlName="city"  ></ion-auto-complete>
+        <ngx-auto-complete [options]="cities" (onSelect)="selectCity($event)"></ngx-auto-complete>
+
 
         <ion-item>
-          <ion-label floating>Data del transito: *</ion-label>
-          <ion-datetime formControlName="transit_date" displayFormat="DD/MM/YYYY" ></ion-datetime>
+          <ion-label floating>Data inizio transito: *</ion-label>
+          <ion-datetime formControlName="start_transit_date" displayFormat="DD/MM/YYYY" ></ion-datetime>
         </ion-item>
 
         <ion-item>
           <ion-label floating>Ora inizio transito: *</ion-label>
           <ion-datetime formControlName="start_transit_hour" displayFormat="HH:mm" ></ion-datetime>
+        </ion-item>
+
+        <ion-item>
+          <ion-label floating>Data fine transito: *</ion-label>
+          <ion-datetime formControlName="end_transit_date" displayFormat="DD/MM/YYYY" ></ion-datetime>
         </ion-item>
 
 
@@ -34,10 +40,10 @@
 
           <ion-item>
               <ion-label floating>Targa: *</ion-label>
-              <ion-input formControlName="targa" type="text"></ion-input>
+              <ion-input formControlName="targa" type="text"  autocapitalize="characters"></ion-input>
           </ion-item>
 
-          <ion-button type="submit" color="primary" expand="block" [disabled]="!requestForm.valid" >Invia</ion-button>
+          <ion-button type="submit" color="primary" expand="block" [disabled]="!requestForm.valid || !selectedCity" >Invia</ion-button>
 
       </form>
   </ion-list>

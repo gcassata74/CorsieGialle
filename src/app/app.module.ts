@@ -19,13 +19,14 @@ import { DocviewPageModule } from './docview/docview.module';
 import { FileManagerComponent } from './file-manager/file-manager.component';
 import { RequestFormComponent } from './request-form/request-form.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { SearchComponent } from './widgets/search/search.component';
+
 import { EmailComponent } from './email/email.component';
 import { EmailComposer } from '@ionic-native/email-composer/ngx';
-import { AutoCompleteModule } from 'ionic4-auto-complete';
+//import { AutoCompleteModule } from 'ionic4-auto-complete';
 import { CityService } from './services/city.service';
 import { DatePipe } from '@angular/common';
 import { StringFormatPipe } from './utils/string-format.pipe';
+import { AutoCompleteComponent } from './components/auto-complete/auto-complete.component';
 
 
 @NgModule({
@@ -33,9 +34,9 @@ import { StringFormatPipe } from './utils/string-format.pipe';
     AppComponent,
     FileManagerComponent,
     RequestFormComponent,
-    SearchComponent,
     EmailComponent,
-    StringFormatPipe
+    StringFormatPipe,
+    AutoCompleteComponent
   ],
   entryComponents: [],
   imports: [
@@ -45,7 +46,6 @@ import { StringFormatPipe } from './utils/string-format.pipe';
     DocviewPageModule,
     ReactiveFormsModule,
     FormsModule,
-    AutoCompleteModule
     ],
   providers: [
     StatusBar,

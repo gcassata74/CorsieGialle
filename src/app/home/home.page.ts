@@ -1,7 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { Platform } from '@ionic/angular';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 
 
@@ -10,8 +8,23 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage  implements OnInit, OnDestroy, AfterViewInit  {
 
+  backButtonSubscription; 
+   
+  constructor (private platform: Platform) { }
 
+  ngOnInit() { }
+
+  ngAfterViewInit() {
+
+    this.backButtonSubscription = this.platform.backButton.subscribe(() => {
+      navigator['app'].exitApp();
+    });
+  }
+
+  ngOnDestroy() {  
+    this.backButtonSubscription.unsubscribe();
+  }
 
 }

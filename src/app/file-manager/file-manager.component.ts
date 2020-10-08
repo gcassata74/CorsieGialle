@@ -1,8 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { DocumentScanner, DocumentScannerOptions } from '@ionic-native/document-scanner/ngx';
 import { File } from '@ionic-native/file/ngx';
-
+import { ModalController } from '@ionic/angular';
+import { DocviewPage } from '../docview/docview.page';
+import { DocumentViewerOptions } from '@ionic-native/document-viewer/ngx';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
   selector: 'app-file-manager',
@@ -14,34 +19,39 @@ export class FileManagerComponent implements OnInit {
   doclist$: any;
   filedirs: any[] = [];
   docs: any[] = [];
+  fileList: any[];
+  pdfobject: any = null;
+
+  @Input() showModal:boolean = false;
 
 
   constructor(
     private router: Router,
     private docscan: DocumentScanner,
-    private file: File
+    private file: File,
+    public modalCtrl: ModalController
 
   ) {
-
-    // this.doclist$ = this.sqldata.doclist$.subscribe((r) => this.docs = r);
-    //  console.log("In Init") ;
-    //  this.sqldata.getdoclist()  ;
-
+      this.refreshList();
   }
-  ngOnInit() {
+  ngOnInit() { }
 
-    if(this.file.listDir(this.file.externalDataDirectory, ''))
-      this.file.listDir(this.file.externalDataDirectory, '').then((l) => {
-        l = l.filter((el) => el.isDirectory);
+  async showdoc(doc) {
 
-        this.filedirs = l.sort((a, b) => {
-          return a.name <= b.name ? -1 : 1;
-        });
-      });
+   const modal = await this.modalCtrl.create({
+    component: DocviewPage,
+    componentProps: { 
+        doc: doc
+      }
+  });
+   
+   return await modal.present();
   }
 
-  showdoc(doc) {
-    this.router.navigate(['/docview/' + doc.name]);
+  refreshList(){
+    this.file.listDir(this.file.externalDataDirectory, '').then((l) => {
+      this.fileList = l.filter(entry => entry.isFile);
+    });
   }
 
   taskDate() {
@@ -59,55 +69,40 @@ export class FileManagerComponent implements OnInit {
 
 
   takePhoto() {
-    // "" + Math.round(new Date().getTime() / 1000) ;
-
-
-    //alert(this.file.externalDataDirectory) ; 
-    //  return ;
+    
     let opts: DocumentScannerOptions = {};
     this.docscan.scanDoc(opts)
       .then((res: string) => {
-        console.log(res);
-        var uuid = "" + Math.round(new Date().getTime() / 1000);
-        var docname = this.taskDate() + "_" + uuid;
-
-        this.file.createDir(this.file.externalDataDirectory, docname, false).then((r) => {
-          this.file.listDir(this.file.externalDataDirectory, '').then((l) => {
-            l = l.filter((el) => el.isDirectory);
-
-            this.filedirs = l.sort((a, b) => {
-              return a.name <= b.name ? -1 : 1;
-            });
-          });
-
 
           let n = res.lastIndexOf("/");
           let oldpath = res.substr(0, n);
           let oldfile = res.substr(n + 1);
-          let newpath = this.file.externalDataDirectory + docname;
-          let newfile = "doc_" + docname + '.jpg';
-          this.file.moveFile(oldpath, oldfile, newpath, newfile).then((r) => console.log("Moved"));
-        });
-
+          let newpath = this.file.externalDataDirectory;
+          //save jpg file
+          this.file.moveFile(oldpath, oldfile, newpath, oldfile).then((r) => {
+            this.refreshList();
+          });
+          
       });
   }
 
   deletephoto(doc) {
     console.log(doc);
-    //   this.file.removeRecursively()
-    this.file.removeRecursively(this.file.externalDataDirectory, doc.name).then((r) => {
-
-
-      this.file.listDir(this.file.externalDataDirectory, '').then((l) => {
-        l = l.filter((el) => el.isDirectory);
-        this.filedirs = l.sort((a, b) => {
-          return a.name <= b.name ? -1 : 1;
-        });
-
-
-      });
-
-    });
+    if(doc){
+      doc.remove();
+      this.refreshList();
+    }  
 
   }
+
+  selectPhoto(doc){
+    this.docs.push(doc);
+  }
+
+  attach(){
+    this.modalCtrl.dismiss(this.docs);
+  }
+
+
+
 }

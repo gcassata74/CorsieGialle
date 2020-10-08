@@ -1,0 +1,13 @@
+<ion-toolbar>
+  <ion-searchbar (ionInput)="handleInput($event)" placeholder="Cerca città" [value]="selectedOption?selectedOption.name:''" showCancelButton="always" autocomplete="on" autocorrect="on" animated></ion-searchbar>
+</ion-toolbar>
+
+<div class="overlay-container">
+  <div #overlay class="overlay">
+    <ion-list>
+      <ion-item *ngFor="let option of filteredOptions"  (click)="selectOption(option)">
+          <span class="list-item" >{{option.name}}</span>
+      </ion-item>
+    </ion-list>
+  </div>
+</div>
