@@ -4,11 +4,16 @@ import { comuni }  from '../data/comuni';
 import { EmailComposer } from '@ionic-native/email-composer/ngx';
 import { DatePipe } from '@angular/common';
 import { StringFormatPipe } from '../utils/string-format.pipe';
-import { ModalController } from '@ionic/angular';
+import { ModalController, Platform, NavController } from '@ionic/angular';
 import { CityModel } from '../models/city-model.model';
 import { FileManagerComponent } from '../file-manager/file-manager.component';
 import { PdfServiceService } from '../services/pdf-service.service';
 import { File } from '@ionic-native/file/ngx';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
+import { Keyboard } from '@ionic-native/keyboard/ngx';
+
+
+   
 
 
 const subject:string = "Richiesta autorizzazione transito corsie preferenziali / ZTL";
@@ -35,31 +40,51 @@ export class RequestFormComponent implements OnInit {
               private emailComposer: EmailComposer,
               public modalCtrl: ModalController,
               public pdfService:PdfServiceService,
-              public file:File) {
-    this.createContactForm();
+              public file:File,
+              public storage:NativeStorage,
+              private platform: Platform,
+              private keyboard: Keyboard) {
+               
+             this.initContactForm();
   }
 
   ngOnInit() {
+
       this.pdfService.pdfCreated.subscribe((f) =>{
-        
        this.attachments = [f.nativeURL];
        this.sendEmail();
-
       });
+
+
+      this.storage.getItem('targa').then(data=>{
+        if(data)
+          this.requestForm.get('targa').patchValue(data.property);
+
+      },error=>{console.log(error)});
+
+
+
    }
   
 
-  createContactForm(){
-    this.requestForm = this.formBuilder.group({
-      // city: ['', Validators.required],
-      start_transit_date: [new Date(), Validators.required],  
-      start_transit_hour:['', Validators.required],
-      end_transit_date: [new Date(), Validators.required],  
-      end_transit_hour:['', Validators.required],
-      targa: ['', Validators.required]
+   initContactForm(){
+      
+        this.requestForm = this.formBuilder.group({
+          start_transit_date: ['', Validators.required],  
+          start_transit_hour:['', Validators.required],
+          end_transit_date: ['', Validators.required],  
+          end_transit_hour:['', Validators.required],
+          targa: ['', Validators.required]
 
-    });
+        });
+
+       
   }
+
+  onKeyPressed(event) {
+    if(event.keyCode===13)
+     this.keyboard.hide();
+}
 
   onSubmit() {
      this.selectAttachments();
@@ -90,8 +115,17 @@ export class RequestFormComponent implements OnInit {
       body: this.stringFormatPipe.transform(mailbody,data.start_transit_hour,data.start_transit_date,data.end_transit_hour,data.end_transit_date, data.targa),
       isHtml: true
       }; 
+
+
+    //store targa into native storage
+    this.storage.setItem('targa', {property: data.targa}).then(() => {
+      this.emailComposer.open(email);
+      this.initContactForm();
+    },
+    error => console.error('Error storing item', error)
+ );  
     
-    this.emailComposer.open(email);
+   
   }  
 
   

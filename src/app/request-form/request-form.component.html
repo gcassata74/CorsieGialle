@@ -40,7 +40,7 @@
 
           <ion-item>
               <ion-label floating>Targa: *</ion-label>
-              <ion-input formControlName="targa" type="text"  autocapitalize="characters"></ion-input>
+              <ion-input formControlName="targa" type="text"  autocapitalize="characters" (keypress)="onKeyPressed($event)"></ion-input>
           </ion-item>
 
           <ion-button type="submit" color="primary" expand="block" [disabled]="!requestForm.valid || !selectedCity" >Invia</ion-button>

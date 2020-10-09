@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
-import { Platform } from '@ionic/angular';
+import { Platform, NavController } from '@ionic/angular';
 
 
 
@@ -8,22 +8,26 @@ import { Platform } from '@ionic/angular';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage  implements OnInit, OnDestroy, AfterViewInit  {
+export class HomePage  implements OnInit  {
 
   backButtonSubscription; 
    
-  constructor (private platform: Platform) { }
+  constructor ( 
+                public navCtrl: NavController,
+                private platform: Platform
+                ) { }
 
   ngOnInit() { }
 
-  ngAfterViewInit() {
+  ionViewDidEnter() {
 
     this.backButtonSubscription = this.platform.backButton.subscribe(() => {
-      navigator['app'].exitApp();
+          navigator['app'].exitApp();
     });
+
   }
 
-  ngOnDestroy() {  
+  ionViewWillLeave() {   
     this.backButtonSubscription.unsubscribe();
   }
 
