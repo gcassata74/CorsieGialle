@@ -41,7 +41,7 @@ export class AppComponent {
         icon  : "car"
       },
       {
-        title : "Attestati di transito",
+        title : "Documenti di transito",
         url   : "/file-manager",
         icon  : "document"
       },

@@ -20,6 +20,7 @@
           <ion-label floating>Data inizio transito: *</ion-label>
           <ion-datetime formControlName="start_transit_date" displayFormat="DD/MM/YYYY" ></ion-datetime>
         </ion-item>
+       
 
         <ion-item>
           <ion-label floating>Ora inizio transito: *</ion-label>
@@ -30,12 +31,14 @@
           <ion-label floating>Data fine transito: *</ion-label>
           <ion-datetime formControlName="end_transit_date" displayFormat="DD/MM/YYYY" ></ion-datetime>
         </ion-item>
+        <div *ngIf="requestForm.controls.end_transit_date.errors && requestForm.controls.end_transit_date.errors.overlapdate" class="alert alert-danger" >Data fine inferiore a data inizio.</div>
 
 
         <ion-item>
           <ion-label floating>Ora fine transito: *</ion-label>
           <ion-datetime formControlName="end_transit_hour" displayFormat="HH:mm" ></ion-datetime>
         </ion-item>
+          <div *ngIf="requestForm.controls.end_transit_hour.errors && requestForm.controls.end_transit_hour.errors.overlaptime" class="alert alert-danger">Ora fine inferiore a ora inizio.</div>
 
 
           <ion-item>

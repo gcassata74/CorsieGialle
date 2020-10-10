@@ -11,6 +11,7 @@ import { PdfServiceService } from '../services/pdf-service.service';
 import { File } from '@ionic-native/file/ngx';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
+import { MustNotOverlap } from  './custom-validation';
 
 
    
@@ -75,7 +76,8 @@ export class RequestFormComponent implements OnInit {
           end_transit_date: ['', Validators.required],  
           end_transit_hour:['', Validators.required],
           targa: ['', Validators.required]
-
+        },{
+          validator: MustNotOverlap('start_transit_date','start_transit_hour', 'end_transit_date','end_transit_hour')
         });
 
        

@@ -18,6 +18,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 })
 export class FileManagerComponent implements OnInit {
 
+  title:string ="Documenti di transito";
   doclist$: any;
   filedirs: any[] = [];
   docs: any[] = [];
@@ -41,13 +42,15 @@ export class FileManagerComponent implements OnInit {
 
 
   ngOnInit() {
-    if(this.showModal)
+        if(this.showModal)
+          this.title = "Seleziona allegati"
         this.presentDisclaimer();
    }
 
   async presentDisclaimer() {
 
     let disclaimer = await  this.storage.getItem('disclaimer');
+    disclaimer.read=0;
     if(disclaimer.read==='1') return;
 
     const alert = await this.alertController.create({

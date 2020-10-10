@@ -6,7 +6,7 @@
         <span *ngIf="!showModal">
           <ion-menu-button></ion-menu-button>  
         </span>
-        <ion-title>Attestati di transito</ion-title>
+        <ion-title>{{title}}</ion-title>
       </ion-buttons>
     </ion-toolbar>
   </ion-header>
@@ -16,9 +16,10 @@
 
 <ion-content padding>
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <div *ngIf="showModal">
+   
+    <span *ngIf="showModal">
       <ion-button ion-fab mini (click)="attach()"><ion-icon name="attach"></ion-icon></ion-button>
-    </div>
+    </span>
     <ion-button ion-fab mini (click)="takePhoto()"><ion-icon name="camera"></ion-icon></ion-button>
   </ion-fab>
 
