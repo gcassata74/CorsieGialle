@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="in.openmed.docscan" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="io.cordova.corsiegiallece" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Document Scanner</name>
     <description>Document Scanner in Ionic</description>
-    <author email="pradipbhatt.developer@gmail.com" href="http://openmed.in">Dr.P.P.Bhatt</author>
+    <author email="giuseppe.cassata74@gmail.com" href="http://openmed.in">Giuseppe Cassata</author>
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />

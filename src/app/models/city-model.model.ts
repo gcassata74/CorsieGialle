@@ -2,7 +2,7 @@ export class CityModel {
 
 code:string;
 cap:string;
-nome:string;
+name:string;
 emails:string[];
 message:string;
 }

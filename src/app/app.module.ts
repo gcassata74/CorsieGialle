@@ -29,6 +29,7 @@ import { StringFormatPipe } from './utils/string-format.pipe';
 import { AutoCompleteComponent } from './components/auto-complete/auto-complete.component';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { Keyboard } from '@ionic-native/keyboard/ngx';
     AlertController,
     Keyboard,
     StringFormatPipe,
+    LocalNotifications,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

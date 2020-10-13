@@ -12,6 +12,7 @@ import { File } from '@ionic-native/file/ngx';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { MustNotOverlap } from  './custom-validation';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 
 
    
@@ -19,6 +20,7 @@ import { MustNotOverlap } from  './custom-validation';
 
 const subject:string = "Richiesta autorizzazione transito corsie preferenziali / ZTL";
 const mailbody:string = "Con la presente sono a richiedere il permesso di transito temporaneo su ztl e corsie gialle del vostro comune  dalle ore {0} del giorno {1} alle ore {2} del giorno {3}, per il veicolo targato {4},allego la documentazione inerente alla titolarità di transito. \n Richiedo cortese riscontro positivo o negativo alla richiesta, in risposta alla presente mail, per evitare inutili sanzioni e ricorsi vista l'evidente titolarità di transito \n Cordiali saluti"
+const notification:string ="Ricorda il tuo transito nella città di {0} dalle ore {1} del giorno {2} alle ore {3} del giorno {4}, verifica la tua mail per eventuale conferma del comune"
 
 @Component({
   selector: 'app-request-form',
@@ -44,16 +46,18 @@ export class RequestFormComponent implements OnInit {
               public file:File,
               public storage:NativeStorage,
               private platform: Platform,
-              private keyboard: Keyboard) {
+              private keyboard: Keyboard,
+              private localNotifications: LocalNotifications) {
                
              this.initContactForm();
   }
 
   ngOnInit() {
 
+
       this.pdfService.pdfCreated.subscribe((f) =>{
        this.attachments = [f.nativeURL];
-       this.sendEmail();
+       this.prepareEmail();
       });
 
 
@@ -98,12 +102,12 @@ export class RequestFormComponent implements OnInit {
 
   
 
-  sendEmail(){
+  prepareEmail(){
 
     let output = this.requestForm.value;
     let data:any = {};
 
-
+    data.city = this.selectedCity.name;
     data.start_transit_date = this.datePipe.transform(new Date(output.start_transit_date), 'dd-MM-yyyy');
     data.end_transit_date = this.datePipe.transform(new Date(output.end_transit_date), 'dd-MM-yyyy');
     data.start_transit_hour = this.datePipe.transform(new Date(output.start_transit_hour),'HH:mm');
@@ -117,18 +121,28 @@ export class RequestFormComponent implements OnInit {
       body: this.stringFormatPipe.transform(mailbody,data.start_transit_hour,data.start_transit_date,data.end_transit_hour,data.end_transit_date, data.targa),
       isHtml: true
       }; 
-
-
-    //store targa into native storage
-    this.storage.setItem('targa', {property: data.targa}).then(() => {
-      this.emailComposer.open(email);
-      this.initContactForm();
-    },
-    error => console.error('Error storing item', error)
- );  
-    
+     
+    this.sendEmail(email,data);
    
   }  
+
+
+  async sendEmail(email:any, data: any) {
+
+    var datestring =   this.datePipe.transform(new Date(data.start_transit_date), 'yyyy-dd-MM') + "T" + data.start_transit_hour +":00";
+    
+    await this.storage.setItem('targa', {property: data.targa});
+    await this.emailComposer.open(email);
+    await this.initContactForm();
+    await  this.localNotifications.schedule({
+        text: this.stringFormatPipe.transform(notification,data.city,data.start_transit_hour,data.start_transit_date,data.end_transit_hour,data.end_transit_date),
+        trigger: {at: new Date(new Date(datestring).getTime() - 600000)},
+        led: 'FF0000',
+        sound: 'file://sound.mp3'
+       });
+
+
+  }
 
   
   async selectAttachments() {
