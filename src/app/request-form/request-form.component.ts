@@ -129,8 +129,9 @@ export class RequestFormComponent implements OnInit {
 
   async sendEmail(email:any, data: any) {
 
-    var datestring =   this.datePipe.transform(new Date(data.start_transit_date), 'yyyy-dd-MM') + "T" + data.start_transit_hour +":00";
-    
+    let inputDate = data.start_transit_date.split('-');
+    let datestring = inputDate[2] + "-" + inputDate[1] + "-" + inputDate[0] + "T" + data.start_transit_hour +":00";
+
     await this.storage.setItem('targa', {property: data.targa});
     await this.emailComposer.open(email);
     await this.initContactForm();
