@@ -105,9 +105,13 @@
       "cordova-plugin-file": {},
       "info.protonet.imageresizer": {},
       "com-sarriaroman-photoviewer": {},
-      "cordova-plugin-camera": {},
+      "cordova-plugin-camera": {
+        "ANDROID_SUPPORT_V4_VERSION": "27.+"
+      },
       "cordova-plugin-datepicker": {},
-      "cordova-plugin-email-composer": {},
+      "cordova-plugin-email-composer": {
+        "ANDROID_SUPPORT_V4_VERSION": "27.+"
+      },
       "cordova-plugin-app-name": {
         "APP_NAME": "Corsie Gialle"
       },
