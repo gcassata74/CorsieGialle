@@ -18,12 +18,12 @@
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
    
     <span *ngIf="showModal">
-      <ion-button ion-fab mini (click)="attach()"><ion-icon name="attach"></ion-icon></ion-button>
+      <ion-button ion-fab mini (click)="attach()" [disabled]="docs.length==0"><ion-icon name="attach"></ion-icon></ion-button>
     </span>
     <ion-button ion-fab mini (click)="takePhoto()"><ion-icon name="camera"></ion-icon></ion-button>
   </ion-fab>
 
-
+<div *ngIf="fileList.length>0; else noDocument">
     <ion-list>
       <ion-item *ngFor="let d  of fileList"  >
         <div *ngIf="showModal">
@@ -35,7 +35,10 @@
       </ion-item>
      
   </ion-list>
+</div>
 
+<ng-template #noDocument>
+  Nessun documento presente
+</ng-template>
  
-
 </ion-content>

@@ -13,6 +13,8 @@ import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { MustNotOverlap } from  './custom-validation';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+import { AppRate } from '@ionic-native/app-rate/ngx';
+import { AppRatePreferences } from 'cordova-plugin-apprate';
 
 
    
@@ -47,7 +49,8 @@ export class RequestFormComponent implements OnInit {
               public storage:NativeStorage,
               private platform: Platform,
               private keyboard: Keyboard,
-              private localNotifications: LocalNotifications) {
+              private localNotifications: LocalNotifications,
+              private appRate: AppRate) {
                
              this.initContactForm();
   }
@@ -142,7 +145,7 @@ export class RequestFormComponent implements OnInit {
         sound: 'file://sound.mp3'
        });
 
-
+    
   }
 
   
@@ -163,6 +166,5 @@ export class RequestFormComponent implements OnInit {
     return await modal.present();
   }
 
-  
 
 }

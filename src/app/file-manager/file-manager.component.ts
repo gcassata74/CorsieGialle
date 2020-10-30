@@ -22,7 +22,7 @@ export class FileManagerComponent implements OnInit {
   doclist$: any;
   filedirs: any[] = [];
   docs: any[] = [];
-  fileList: any[];
+  fileList: any[] = [];
   pdfobject: any = null;
 
   @Input() showModal:boolean = false;

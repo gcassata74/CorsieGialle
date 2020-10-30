@@ -30,6 +30,7 @@ import { AutoCompleteComponent } from './components/auto-complete/auto-complete.
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+import { AppRate } from '@ionic-native/app-rate/ngx';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
     Keyboard,
     StringFormatPipe,
     LocalNotifications,
+    AppRate,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
