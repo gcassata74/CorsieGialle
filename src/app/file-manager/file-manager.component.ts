@@ -48,10 +48,15 @@ export class FileManagerComponent implements OnInit {
    }
 
   async presentDisclaimer() {
+    var disclaimer = {read:'0'};
+   
+    try{
+     disclaimer = await  this.storage.getItem('disclaimer');
+    } catch(e){
+      //nothing to do here
+    }
 
-    let disclaimer = await  this.storage.getItem('disclaimer');
-    disclaimer.read=0;
-    if(disclaimer.read==='1') return;
+     if(disclaimer && disclaimer.read==='1') return;
 
     const alert = await this.alertController.create({
       cssClass: 'disclaimer',

@@ -38,6 +38,7 @@ export class RequestFormComponent implements OnInit {
   selectedCity: CityModel;
   modalController: any;
   attachments: any[]=[];
+  targa: string="";
 
   constructor(private stringFormatPipe:StringFormatPipe,
               private datePipe: DatePipe,
@@ -51,26 +52,23 @@ export class RequestFormComponent implements OnInit {
               private keyboard: Keyboard,
               private localNotifications: LocalNotifications,
               private appRate: AppRate) {
+
+                this.storage.getItem('targa').then(data=>{
+                  if(data)
+                    //this.requestForm.get('targa').patchValue(data.property);
+                    this.targa = data.property;
+          
+                },error=>{console.log(error)});  
                
-             this.initContactForm();
+                this.initContactForm();
   }
 
   ngOnInit() {
-
 
       this.pdfService.pdfCreated.subscribe((f) =>{
        this.attachments = [f.nativeURL];
        this.prepareEmail();
       });
-
-
-      this.storage.getItem('targa').then(data=>{
-        if(data)
-          this.requestForm.get('targa').patchValue(data.property);
-
-      },error=>{console.log(error)});
-
-
 
    }
   
@@ -82,7 +80,7 @@ export class RequestFormComponent implements OnInit {
           start_transit_hour:['', Validators.required],
           end_transit_date: ['', Validators.required],  
           end_transit_hour:['', Validators.required],
-          targa: ['', Validators.required]
+          targa: [this.targa, Validators.required]
         },{
           validator: MustNotOverlap('start_transit_date','start_transit_hour', 'end_transit_date','end_transit_hour')
         });
